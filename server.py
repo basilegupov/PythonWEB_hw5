@@ -1,7 +1,6 @@
 import asyncio
 import logging
 import names
-from random import randint
 
 from websockets import (
     WebSocketServerProtocol, 

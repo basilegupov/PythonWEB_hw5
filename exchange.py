@@ -1,11 +1,14 @@
 import json
-import argparse
 import asyncio
+import sys
+
 import aiohttp
 from datetime import datetime, timedelta
 
 
 async def fetch_currency_rates(days, currency=None):
+    if int(days) > 10:
+        return 'You can retrieve currency rates for up to 10 days only.'
     async with aiohttp.ClientSession() as session:
         rates = []
         list_currency = ['USD', 'EUR']
@@ -37,11 +40,5 @@ async def exchange(days, currency=None):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Get currency rates from PrivatBank for the last few days.')
-    parser.add_argument('days', type=int, help='Number of days to retrieve currency rates for (not more than 10)')
-    # parser.add_argument('currency', type=str, help='List of currency\'s')
-    args = parser.parse_args()
-    if args.days > 10:
-        print('Error: You can retrieve currency rates for up to 10 days only.')
-    else:
-        asyncio.run(exchange(args.days))
+    _, days, *currency = sys.argv
+    asyncio.run(exchange(int(days), currency))
