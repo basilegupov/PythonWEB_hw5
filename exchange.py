@@ -16,7 +16,6 @@ async def fetch_currency_rates(days, currency=None):
             date = (datetime.today() - timedelta(days=i)).strftime('%d.%m.%Y')
             async with session.get(f'https://api.privatbank.ua/p24api/exchange_rates?json&date={date}') as response:
                 data = await response.json()
-                # pprint.pprint(data)
                 dict_currency = {}
                 for cur in data['exchangeRate']:
                     currency = cur.get('currency')
